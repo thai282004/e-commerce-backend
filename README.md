@@ -413,6 +413,10 @@ Error responses follow this format:
 - Protected routes with authentication middleware
 - Input validation
 - CORS enabled
+- **Rate limiting** to prevent abuse:
+  - General API: 100 requests per 15 minutes
+  - Authentication endpoints: 5 attempts per 15 minutes
+  - Order creation: 10 orders per hour
 
 ## Development
 

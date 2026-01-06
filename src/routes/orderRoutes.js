@@ -9,9 +9,10 @@ const {
   updateOrderPayment
 } = require('../controllers/orderController');
 const { protect, admin } = require('../middleware/auth');
+const { orderLimiter } = require('../middleware/rateLimiter');
 
 router.route('/')
-  .post(protect, createOrder)
+  .post(protect, orderLimiter, createOrder)
   .get(protect, admin, getOrders);
 
 router.get('/myorders', protect, getMyOrders);
