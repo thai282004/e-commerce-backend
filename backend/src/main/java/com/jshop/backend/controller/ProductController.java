@@ -17,17 +17,14 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping
-    public ResponseEntity<ProductDTO>createProduct(@Valid @RequestBody ProductDTO productDTO){
+    @PostMapping // định nghĩa phương thức post
+    public ResponseEntity<ProductDTO>createProduct(@Valid @RequestBody ProductDTO productDTO){ // chuyen json -> dto
         ProductDTO newProduct=productService.createProduct(productDTO);
         return  ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
-    @GetMapping
-    public ResponseEntity<List<ProductDTO>>getAllProduct(){
+    @GetMapping // định nghĩa phương thức post
+    public ResponseEntity<List<ProductDTO>>getAllProducts(){
         return ResponseEntity.ok(productService.getAllProducts());
     }
-
-
-
 }

@@ -39,22 +39,26 @@ public class Product {
 
     //Audit field
 
-    @Column(name="create_at")
-    private LocalDateTime createAt;
+    @Column(name="created_at")
+    private LocalDateTime createdAt;
 
-    @Column(name="update_at")
-    private LocalDateTime updateAt;
+    @Column(name="updated_at")
+    private LocalDateTime updatedAt;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="category_id")
+    private Category category;
 
     @PrePersist
     protected void onCreate(){
-        createAt=LocalDateTime.now();
-        updateAt=LocalDateTime.now();
+        createdAt=LocalDateTime.now();
+        updatedAt=LocalDateTime.now();
 
     }
 
     @PreUpdate
     protected void onUpdate(){
-        updateAt=LocalDateTime.now();
+        updatedAt=LocalDateTime.now();
     }
 
 

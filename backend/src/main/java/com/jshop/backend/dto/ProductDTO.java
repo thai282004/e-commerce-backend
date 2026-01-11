@@ -18,4 +18,9 @@ public record ProductDTO (
     String description,
 
     @Min(message = "Số lượng phải >=0",value = 0)
-    Integer stockQuantity) {}
+    Integer stockQuantity,
+
+    @NotNull(message = "Danh mục không được để trống")
+    Long categoryId
+
+) {}

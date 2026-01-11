@@ -1,13 +1,14 @@
 package com.jshop.backend.service;
 
 import com.jshop.backend.dto.ProductDTO;
+import com.jshop.backend.entity.Category;
 import com.jshop.backend.entity.Product;
 import com.jshop.backend.mapper.ProductMapper;
 import com.jshop.backend.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.jshop.backend.repository.CategoryRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,11 +18,23 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+    private final CategoryRepository categoryRepository; // Inject thêm cái này
 
     @Transactional // Đảm bảo tính toàn vẹn transaction
     public ProductDTO createProduct(ProductDTO productDTO) {
+        // 1. Convert DTO -> Entity (lúc này product chưa có Category)
         Product product = productMapper.toEntity(productDTO);
+
+        // 2. Tìm Category từ DB dựa vào ID gửi lên
+        Category category = categoryRepository.findById(productDTO.categoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        // 3. Gắn Category vào Product
+        product.setCategory(category);
+
+        // 4. Lưu xuống DB
         Product savedProduct = productRepository.save(product);
+
         return productMapper.toDTO(savedProduct);
     }
 
