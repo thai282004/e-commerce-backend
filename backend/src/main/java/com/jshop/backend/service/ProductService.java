@@ -6,6 +6,10 @@ import com.jshop.backend.entity.Product;
 import com.jshop.backend.mapper.ProductMapper;
 import com.jshop.backend.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.jshop.backend.repository.CategoryRepository;
@@ -42,5 +46,22 @@ public class ProductService {
         return productRepository.findAll().stream()
                 .map(productMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public Page<ProductDTO>getProducts(String keyword,int page,int limit){
+        //Tạo đối tượng pageable (trang số mấy, lấy bao nhiêu, sắp xếp theocais gì ?
+        // sort.by().desceding() . sắp xếp theo id giảm
+        Pageable pageable = PageRequest.of(page,limit, Sort.by("id").descending());
+
+        Page<Product> productPage;
+
+    if(keyword!=null && !keyword.isEmpty()){
+        productPage=productRepository.findByNameContainingIgnoreCase(keyword,pageable);}
+    else{
+        productPage =productRepository.findAll(pageable);
+    }
+    return productPage.map(productMapper::toDTO);
+
+
     }
 }

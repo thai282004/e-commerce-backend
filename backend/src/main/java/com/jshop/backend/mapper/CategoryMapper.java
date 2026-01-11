@@ -12,3 +12,6 @@ public interface CategoryMapper {
     @Mapping(target = "products", ignore = true) // Tạm thời chưa map list products khi tạo
     Category toEntity(CategoryDTO categoryDTO);
 }
+
+
+

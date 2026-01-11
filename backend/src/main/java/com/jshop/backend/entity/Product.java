@@ -45,9 +45,15 @@ public class Product {
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+//    @ManyToOne(fetch=FetchType.LAZY)
+//    @JoinColumn(name="category_id")
+//    private Category category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="category_id")
     private Category category;
+
+
 
     @PrePersist
     protected void onCreate(){
